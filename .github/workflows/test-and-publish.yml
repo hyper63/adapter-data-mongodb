@@ -79,7 +79,8 @@ jobs:
       group: ${{ github.workflow }}-test-native-integration-atlas
     strategy:
       matrix:
-        deno-version: [1.x]
+        # See https://github.com/hyper63/hyper-adapter-mongodb/issues/53
+        deno-version: [1.45.4]
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
