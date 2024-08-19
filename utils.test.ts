@@ -1,5 +1,4 @@
-import { HyperErr } from 'https://raw.githubusercontent.com/hyper63/hyper/hyper-utils%40v0.1.0/packages/utils/hyper-err.js'
-import { isHyperErr } from './deps.ts'
+import { HyperErr, isHyperErr } from './deps.ts'
 import { assert, assertEquals, assertObjectMatch } from './dev_deps.ts'
 
 import { mapSort, mongoErrToHyperErr, queryOptions, toBulkOperations } from './utils.ts'

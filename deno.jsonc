@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "prepare": "deno run -A --no-lock npm:husky@^8 install",
+    "prepare": "deno run -A --no-lock npm:husky@^9",
     "staged": "deno run -A --no-lock npm:lint-staged@^15",
     "cache": "deno cache --lock=deno.lock --lock-write deps.ts dev_deps.ts",
     "test": "deno lint && deno fmt --check && deno test -A --no-lock --unstable --ignore='*.integration.test.ts'",
