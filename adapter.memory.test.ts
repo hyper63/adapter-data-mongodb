@@ -5,7 +5,7 @@ import { suite } from './test/suite.ts'
 Deno.test({
   name: 'Mongo Adapter Test Suite - In-Memory',
   fn: async (t) => {
-    const { client } = await mongo({ dir: '__hyper__', dirVersion: '7.0.4' }).load()
+    const { client } = await mongo({ dir: '__hyper__', dirVersion: '7.0.11' }).load()
     await suite(t)(client, { shouldBaseLine: true })
   },
   /**

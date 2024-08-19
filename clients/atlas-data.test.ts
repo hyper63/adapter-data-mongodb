@@ -1,6 +1,45 @@
-import { assertEquals, assertObjectMatch, assertThrows, deferred } from '../dev_deps.ts'
+import { assertEquals, assertObjectMatch, assertThrows } from '../dev_deps.ts'
 
 import { AtlasDataClient } from './atlas-data.ts'
+
+interface Deferred<T> extends Promise<T> {
+  readonly state: 'pending' | 'fulfilled' | 'rejected'
+  resolve(value?: T | PromiseLike<T>): void
+  // deno-lint-ignore no-explicit-any
+  reject(reason?: any): void
+}
+
+/**
+ * Creates a Promise with the `reject` and `resolve` functions placed as methods
+ * on the promise object itself.
+ *
+ * @example
+ * ```typescript
+ * const p = deferred<number>();
+ * // ...
+ * p.resolve(42);
+ * ```
+ */
+function deferred<T>(): Deferred<T> {
+  let methods
+  let state = 'pending'
+  const promise = new Promise<T>((resolve, reject) => {
+    methods = {
+      async resolve(value: T | PromiseLike<T>) {
+        await value
+        state = 'fulfilled'
+        resolve(value)
+      },
+      // deno-lint-ignore no-explicit-any
+      reject(reason?: any) {
+        state = 'rejected'
+        reject(reason)
+      },
+    }
+  })
+  Object.defineProperty(promise, 'state', { get: () => state })
+  return Object.assign(promise, methods) as Deferred<T>
+}
 
 Deno.test('client - atlas-data', async (t) => {
   let fetchMock = deferred<{ url: string; init: RequestInit }>()
